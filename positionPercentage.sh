@@ -1,5 +1,6 @@
 #!/bin/zsh
-positon=$(playerctl position);
+playerwhitelist=$(cat ~/.i3/playerwhitelist)
+positon=$(playerctl -p $playerwhitelist position);
 length=$(playerctl metadata mpris:length);
 length=$(($length / 1000000))
 

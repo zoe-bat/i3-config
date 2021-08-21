@@ -4,10 +4,7 @@ i3status --config ~/.i3/i3status.conf | while :
 do
     read line
 
-# putting ur own shell scripts here is cool!
-
-#francis tells me what music is playing!
-playerwhitelist="cmus,Lollypop,clementine,rhythmbox,mpv"
+playerwhitelist=$(cat ~/.i3/playerwhitelist)
 playerctlstatus=$(playerctl -p $playerwhitelist status)
 title=$(playerctl -p $playerwhitelist metadata title)
 artist=$(playerctl -p $playerwhitelist metadata artist)
