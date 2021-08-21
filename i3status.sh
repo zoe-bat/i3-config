@@ -13,7 +13,7 @@ title=$(playerctl -p $playerwhitelist metadata title)
 artist=$(playerctl -p $playerwhitelist metadata artist)
 players=$(playerctl -p $playerwhitelist -f '{{playerName}}' status;echo 🖭)
 hearts='.₊̣̇.♥♪'
-position=$(echo $(zsh /home/zoe/.i3/positionPercentage.sh)"%")
+position=$(echo $(zsh ~/.i3/positionPercentage.sh)"%")
 
 #react to volume when awake
 volume=$(pamixer --get-volume)
