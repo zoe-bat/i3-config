@@ -1,0 +1,421 @@
+#i3 config file (v4)
+# Please see http://i3wm.org/docs/userguide.html for a complete reference!
+
+# Set mod key (Mod1=<Alt>, Mod4=<Super>)
+set $mod Mod4
+# set default desktop layout (default is tiling)
+# workspace_layout tabbed <stacking|tabbed>
+
+# Configure border style <normal|1pixel|pixel xx|none|pixel>
+default_border pixel 3
+default_floating_border pixel 3
+
+# Hide borders
+hide_edge_borders none
+
+# change borders
+bindsym $mod+u border none
+
+# Font for window titles. Will also be used by the bar unless a different font
+# is used in the bar {} block below.
+font pango: Recursive Sans Casual Static 14
+
+# Use Mouse+$mod to drag floating windows
+floating_modifier $mod
+
+# start a terminal
+bindsym $mod+Return exec kitty
+
+# kill focused window
+bindsym $mod+Shift+q kill; exec $SFXangryboop
+bindsym $mod+w kill; exec $SFXangryboop
+
+
+#media / audio Player controls
+# next track
+bindsym $mod+Right exec playerctl -a next; exec $SFXvolume
+#previous track
+bindsym $mod+Left exec playerctl -a previous; exec $SFXvolume
+#pause
+bindsym $mod+Down exec playerctl -a play-pause; exec $SFXvolume
+
+################################################################################################
+## sound-section - DO NOT EDIT if you wish to automatically upgrade Alsa -> Pulseaudio later! ##
+################################################################################################
+
+#exec --no-startup-id volumeicon
+#bindsym $mod+Ctrl+m exec terminal -e 'alsamixer'
+#exec --no-startup-id pulseaudio
+# exec --no-startup-id pa-applet
+bindsym $mod+Ctrl+m exec pavucontrol
+
+bindsym XF86AudioRaiseVolume exec pamixer -i 10; exec $SFXvolume;
+bindsym Shift+XF86AudioRaiseVolume exec pamixer -i 1; exec $SFXvolume;
+bindsym XF86AudioLowerVolume exec pamixer -d 10; exec $SFXvolume;
+bindsym Shift+XF86AudioLowerVolume exec pamixer -d 1; exec $SFXvolume;
+bindsym XF86AudioMute exec pamixer -t & exec $SFXaudioOn
+
+
+##SFX
+set $SFXstartup paplay ~/SFX/trek/poweron.ogg
+set $SFXshutdown paplay ~/SFX/trek/poweroff.ogg
+set $SFXvolume paplay ~/SFX/trek/volume.ogg
+set $SFXaudioOn paplay ~/SFX/trek/unmute.ogg
+
+################################################################################################
+
+
+# Screen brightness controls
+bindsym XF86MonBrightnessUp exec "brightnessctl set +10%"
+bindsym XF86MonBrightnessDown exec "brightnessctl set 10%-"
+
+bindsym Shift+XF86MonBrightnessUp exec "brightnessctl set +1%"
+bindsym Shift+XF86MonBrightnessDown exec "brightnessctl set 1%-"
+
+# Start Applications
+bindsym $mod+F1 exec lollypop
+bindsym $mod+F2 exec firefox
+bindsym $mod+Shift+F2 exec torbrowser-launcher
+bindsym $mod+period exec --no-startup-id splatmoji -j copy ~/.local/share/splatmoji/data/gay.tsv ~/.local/share/splatmoji/data/splatmoji-emojidata/data/tsv/en.tsv
+bindsym $mod+d exec "rofi -combi-modi window,drun,scripts,run, -show-icons -show combi -modi combi"; exec $SFXpopup
+# rofi with icons 
+bindsym $mod+Tab exec "rofi -combi-modi window,drun,scripts,run, -show-icons -show combi -modi combi"; exec $SFXpopup
+bindsym $mod+Ctrl+n --release exec xfce4-notifyd-config
+# bindsym $mod+F3 exec ranger
+bindsym $mod+F3 exec nemo
+bindsym $mod+F4 exec zim
+bindsym $mod+shift+t exec --no-startup-id pkill picom
+bindsym $mod+Ctrl+t exec --no-startup-id picom -CGb -f --shadow-ignore-shaped
+bindsym Print exec --no-startup-id flameshot gui || shutter -s
+bindsym $mod+Print --release exec --no-startup-id i3-scrot -w
+bindsym $mod+Shift+Print --release exec --no-startup-id i3-scrot -s
+bindsym $mod+Ctrl+x --release exec --no-startup-id xkill
+
+# focus_follows_mouse no
+
+# change focus
+bindsym $mod+h focus left; exec $SFXwindow
+bindsym $mod+j focus down; exec $SFXwindow
+bindsym $mod+k focus up; exec $SFXwindow
+bindsym $mod+l focus right; exec $SFXwindow
+
+# move focused window
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+
+# workspace back and forth (with/without active container)
+workspace_auto_back_and_forth yes
+bindsym $mod+b workspace back_and_forth
+bindsym $mod+Shift+b move container to workspace back_and_forth; workspace back_and_forth
+
+# split orientation
+#bindsym $mod+% split h;exec notify-send 'tile horizontally'
+#bindsym $mod+" split v;exec notify-send 'tile vertically'
+bindsym $mod+q split toggle; exec $SFXwindow
+
+# toggle fullscreen mode for the focused container
+bindsym $mod+f fullscreen toggle; exec $SFXwindow_move
+
+
+# change container layout (stacked, tabbed, toggle split)
+bindsym $mod+s layout stacking; exec $SFXwindow_move
+bindsym $mod+t layout tabbed; exec $SFXwindow_move
+bindsym $mod+e layout toggle split; exec $SFXwindow_move
+
+# toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+
+# change focus between tiling / floating windows
+bindsym $mod+space focus mode_toggle
+
+# toggle sticky
+bindsym $mod+Shift+s sticky toggle
+
+# focus the parent container
+bindsym $mod+a focus parent
+
+# move the currently focused window to the scratchpad
+bindsym $mod+Shift+minus move scratchpad
+
+# Show the next scratchpad window or hide the focused scratchpad window.
+# If there are multiple scratchpad windows, this command cycles through them.
+bindsym $mod+minus scratchpad show
+
+#navigate workspaces next / previous
+bindsym $mod+Ctrl+Right workspace next
+bindsym $mod+Ctrl+Left workspace prev
+
+# use brackets to move window to adjacent workspace
+bindsym $mod+bracketright move to workspace prev
+bindsym $mod+bracketleft  move to workspace next
+
+# Workspace names
+# to display names or symbols instead of plain workspace numbers you can use
+# something like: set $ws1 1:mail
+#                 set $ws2 2:
+set $ws0 0 🏳‍⚧
+set $ws1 1 👽️
+set $ws2 2 🔮
+set $ws3 3 ✨
+set $ws4 4 🛸
+set $ws5 5 ☄️
+set $ws6 6 💀
+set $ws7 7 🌙
+set $ws8 8 🐁
+set $ws9 9 🏳‍🌈
+set $ws10 10 💜
+set $ws11 11 🛰️
+set $ws12 12 🧟
+
+# switch to workspace
+bindsym $mod+dead_circumflex workspace $ws0; exec $SFXwindow
+bindsym $mod+1 workspace $ws1; exec $SFXwindow
+bindsym $mod+2 workspace $ws2; exec $SFXwindow
+bindsym $mod+3 workspace $ws3; exec $SFXwindow
+bindsym $mod+4 workspace $ws4; exec $SFXwindow
+bindsym $mod+5 workspace $ws5; exec $SFXwindow
+bindsym $mod+6 workspace $ws6; exec $SFXwindow
+bindsym $mod+7 workspace $ws7; exec $SFXwindow
+bindsym $mod+8 workspace $ws8; exec $SFXwindow
+bindsym $mod+9 workspace $ws9; exec $SFXwindow
+bindsym $mod+0 workspace $ws10; exec $SFXwindow
+bindsym $mod+ssharp workspace $ws11; exec $SFXwindow
+bindsym $mod+dead_acute workspace $ws12; exec $SFXwindow
+
+# Move focused container to workspace
+bindsym $mod+Ctrl+dead_circumflex move container to workspace $ws0; exec $SFXwindow_move
+bindsym $mod+Ctrl+1 move container to workspace $ws1; exec $SFXwindow_move
+bindsym $mod+Ctrl+2 move container to workspace $ws2; exec $SFXwindow_move
+bindsym $mod+Ctrl+3 move container to workspace $ws3; exec $SFXwindow_move
+bindsym $mod+Ctrl+4 move container to workspace $ws4; exec $SFXwindow_move 
+bindsym $mod+Ctrl+5 move container to workspace $ws5; exec $SFXwindow_move
+bindsym $mod+Ctrl+6 move container to workspace $ws6; exec $SFXwindow_move
+bindsym $mod+Ctrl+7 move container to workspace $ws7; exec $SFXwindow_move
+bindsym $mod+Ctrl+8 move container to workspace $ws8; exec $SFXwindow_move
+bindsym $mod+Ctrl+9 move container to workspace $ws9; exec $SFXwindow_move
+bindsym $mod+Ctrl+0 move container to workspace $ws10; exec $SFXwindow_move
+bindsym $mod+Ctrl+ssharp move container to workspace $ws11; exec $SFXwindow_move
+bindsym $mod+Ctrl+dead_acute move container to workspace $ws12; exec $SFXwindow_move
+
+
+# Move to workspace with focused container
+bindsym $mod+Shift+dead_circumflex move container to workspace $ws0; workspace $ws0; exec $SFXwindow_move
+bindsym $mod+Shift+1 move container to workspace $ws1; workspace $ws1; exec $SFXwindow_move
+bindsym $mod+Shift+2 move container to workspace $ws2; workspace $ws2; exec $SFXwindow_move
+bindsym $mod+Shift+3 move container to workspace $ws3; workspace $ws3; exec $SFXwindow_move
+bindsym $mod+Shift+4 move container to workspace $ws4; workspace $ws4; exec $SFXwindow_move
+bindsym $mod+Shift+5 move container to workspace $ws5; workspace $ws5; exec $SFXwindow_move
+bindsym $mod+Shift+6 move container to workspace $ws6; workspace $ws6; exec $SFXwindow_move
+bindsym $mod+Shift+7 move container to workspace $ws7; workspace $ws7; exec $SFXwindow_move
+bindsym $mod+Shift+8 move container to workspace $ws8; workspace $ws8; exec $SFXwindow_move
+bindsym $mod+Shift+9 move container to workspace $ws9; workspace $ws9; exec $SFXwindow_move
+bindsym $mod+Shift+0 move container to workspace $ws10; workspace $ws10; exec $SFXwindow_move
+bindsym $mod+Shift+ssharp move container to workspace $ws11; workspace $ws11; exec $SFXwindow_move
+bindsym $mod+Shift+dead_acute move container to workspace $ws12; workspace $ws12; exec $SFXwindow_move
+
+# Open applications on specific workspaces
+# assign [class="Thunderbird"] $ws1
+# assign [class="Pale moon"] $ws2
+# assign [class="Pcmanfm"] $ws3
+# assign [class="Skype"] $ws5
+
+# Open specific applications in floating mode
+# for_window [class="Pavucontrol"] floating enable
+# for_window [floating] floating disable
+# for_window [tiling] floating enable
+# # for_window [class="orage"] floating enable
+for_window [instance="origin.exe"] floating enable
+
+# switch to workspace with urgent window automatically
+for_window [urgent=latest] focus; exec $SFXwindow
+
+# reload the configuration file
+bindsym $mod+Shift+c reload; exec $SFXrestart
+
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Shift+r restart; $SFXrestart
+
+# exit i3 (logs you out of your X session)
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+
+# Set shut down, restart and locking features
+bindsym $mod+BackSpace exec $SFXpopup; mode "$mode_system"
+set $mode_system bye!!! (*-ω-) (l)ock, (e)xit, switch_(u)ser, (s)uspend, (r)eboot, (Shift+s)hutdown
+mode "$mode_system" {
+    bindsym l exec --no-startup-id $SFXshutdown && i3lock -f -i ~/Pictures/Wallpaper/lesbian-linux.png -c 282a36, mode "default"
+        bindsym s exec $SFXshutdown && i3lock -f -i ~/Pictures/Wallpaper/lesbian-linux.png -c 282a36 && systemctl suspend, mode "default"
+        bindsym u exec $SFXshutdown && i3exit switch_user, mode "default"
+        bindsym e exec $SFXshutdown && i3exit logout, mode "default"
+        bindsym r exec $SFXshutdown && i3exit reboot, mode "default"
+        bindsym Shift+s exec kitty yay && kitty paccache -r -k && kitty sudo flatpak update && kitty sudo yay -Rns $(yay -Qdtq) && $SFXshutdown && i3exit shutdown, mode "default"
+
+# exit system mode: "Enter" or "Escape"
+        bindsym Return mode "default"; exec $SFXangryboop
+        bindsym Escape mode "default"; exec $SFXangryboop
+}
+
+# Resize window (you can also use the mouse for that)
+bindsym $mod+r exec $SFXwindow_edit; exec $SFXpopup; mode "resize"
+mode "resize" {
+# These bindings trigger as soon as you enter the resize mode
+# Pressing left will shrink the window’s width.
+# Pressing right will grow the window’s width.
+# Pressing up will shrink the window’s height.
+# Pressing down will grow the window’s height.
+    bindsym h resize shrink width 10 px or 10 ppt; exec $SFXwindow_move
+        bindsym j resize grow height 10 px or 10 ppt; exec $SFXwindow_move
+        bindsym k resize shrink height 10 px or 10 ppt; exec $SFXwindow_move
+        bindsym l resize grow width 10 px or 10 ppt; exec $SFXwindow_move
+
+        bindsym Shift+H resize shrink width 1 px or 1 ppt; exec $SFXwindow_move
+        bindsym Shift+J resize grow height 1 px or 1 ppt; exec $SFXwindow_move
+        bindsym Shift+K resize shrink height 1 px or 1 ppt; exec $SFXwindow_move
+        bindsym Shift+L resize grow width 1 px or 1 ppt; exec $SFXwindow_move
+
+# exit resize mode: Enter or Escape
+        bindsym Return mode "default"; exec $SFXangryboop
+        bindsym Escape mode "default"; exec $SFXangryboop
+}
+
+# Lock screen
+# bindsym $mod+9 exec --no-startup-id blurlock
+
+# Autostart applications
+exec --no-startup-id "~/.oh-my-zsh/custom/scripts/weather.sh"
+exec --no-startup-id "setxkbmap -layout de"
+exec --no-startup-id syncthing
+exec --no-startup-id sc-controller
+exec --no-startup-id ~/.screenlayout/arandr.sh
+exec --no-startup-id $SFXstartup
+exec --no-startup-id blueman-tray
+# exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+exec_always --no-startup-id nitrogen --restore;
+exec --no-startup-id /usr/lib/geoclue-2.0/demos/agent
+exec --no-startup-id redshift-gtk
+exec --no-startup-id /usr/lib/xfce4/notifyd/xfce4-notifyd
+exec --no-startup-id nm-applet
+exec --no-startup-id xfce4-power-manager
+exec --no-startup-id xfce4-clipman
+exec --no-startup-id kitty newsboat
+# exec_always --no-startup-id picom -GCbf
+
+bindsym exec --no-startup-id xsetwacom --set "14" MapToOutput DisplayPort-0; xsetwacom --set "15" MapToOutput DisplayPort-0
+bindsym $mod+Shift+D exec xsetwacom --set "14" MapToOutput DisplayPort-0; exec xsetwacom --set "15" MapToOutput DisplayPort-0 && exec notify-send "tablet"
+#exec --no-startup-id xautolock -time 10 -locker blurlock
+exec_always --no-startup-id fix_xcursor
+
+# Color palette used for the terminal ( ~/.Xresources file )
+# Colors are gathered based on the documentation:
+# https://i3wm.org/docs/userguide.html#xresources
+# Change the variable name at the place you want to match the color
+# of your terminal like this:
+# [example]
+# If you want your bar to have the same background color as your 
+# terminal background change the line 362 from:
+# background #14191D
+# to:
+# background $term_background
+# Same logic applied to everything else.
+
+
+# Start i3bar to display a workspace bar (plus the system information i3status if available)
+bar {
+#i3bar_command i3bar
+    status_command ~/.i3/i3status.sh -t
+        position top
+        tray_padding 1
+
+
+## please set your primary output first. Example: 'xrandr --output eDP1 --primary'
+        binding_mode_indicator yes
+        mode hide
+        bindsym button4 nop
+        bindsym button5 nop
+        colors {
+            background #282A36
+                statusline #f8f8f2
+                separator  #44475a
+
+#                      border  backgr. text
+                focused_workspace  #50fa7b #44475a #50fa7b
+                active_workspace   #ff79c6 #282A36 #ff79c6
+                inactive_workspace #bd93f9 #282A36 #bd93f9
+                binding_mode       #FF5555 #FF5555 #F8F8F2
+                urgent_workspace   #FF5555 #FF5555 #F8F8F2
+        }
+}
+
+# hide/unhide i3status bar
+bindsym $mod+m bar mode toggle; exec $SFXwindow_edit
+
+# Theme colors
+# class                 border  bground text    indicator child_border
+client.focused          #50fa7b #282a36 #f8f8f2 #282a36   #50fa7b
+client.focused_inactive #ff79c6 #44475A #F8F8F2 #44475A   #ff79c6
+client.unfocused        #bd93f9 #282A36 #BFBFBF #bd93f9   #bd93f9
+client.urgent           #ff5555 #FF5555 #F8F8F2 #FF5555   #FF5555
+client.placeholder      #282A36 #282A36 #F8F8F2 #282A36   #282A36
+
+client.background       #F8F8F2
+
+#############################
+### settings for i3-gaps: ###
+#############################
+
+# Set inner/outer gaps
+gaps inner 3
+gaps outer 3
+
+# Additionally, you can issue commands with the following syntax. This is useful to bind keys to changing the gap size.
+# gaps inner|outer current|all set|plus|minus <px>
+# gaps inner all set 10
+# gaps outer all plus 5
+
+# Smart gaps (gaps used if only more than one container on the workspace)
+smart_gaps on
+
+# Smart borders (draw borders around container only if it is not the only container on this workspace) 
+# on|no_gaps (on=always activate and no_gaps=only activate if the gap size to the edge of the screen is 0)
+# smart_borders no_gaps
+
+
+# Press $mod+Shift+g to enter the gap mode. Choose o or i for modifying outer/inner gaps. Press one of + / - (in-/decrement for current workspace) or 0 (remove gaps for current workspace). If you also press Shift with these keys, the change will be global for all workspaces.
+set $mode_gaps Gaps: (o) outer, (i) inner
+set $mode_gaps_outer Outer Gaps: +|-|0 (local), Shift + +|-|0 (global)
+set $mode_gaps_inner Inner Gaps: +|-|0 (local), Shift + +|-|0 (global)
+bindsym $mod+Shift+g mode "$mode_gaps"
+
+mode "$mode_gaps" {
+    bindsym o      mode "$mode_gaps_outer"
+        bindsym i      mode "$mode_gaps_inner"
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+mode "$mode_gaps_inner" {
+    bindsym plus  gaps inner current plus 5
+        bindsym minus gaps inner current minus 5
+        bindsym 0     gaps inner current set 0
+
+        bindsym Shift+plus  gaps inner all plus 5
+        bindsym Shift+minus gaps inner all minus 5
+        bindsym Shift+0     gaps inner all set 0
+
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+mode "$mode_gaps_outer" {
+    bindsym plus  gaps outer current plus 5
+        bindsym minus gaps outer current minus 5
+        bindsym 0     gaps outer current set 0
+
+        bindsym Shift+plus  gaps outer all plus 5
+        bindsym Shift+minus gaps outer all minus 5
+        bindsym Shift+0     gaps outer all set 0
+
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+
+exec i3-msg restart;
