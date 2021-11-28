@@ -7,8 +7,8 @@ set $mod Mod4
 # workspace_layout tabbed <stacking|tabbed>
 
 # Configure border style <normal|1pixel|pixel xx|none|pixel>
-default_border pixel 3
-default_floating_border pixel 3
+default_border pixel 4
+default_floating_border pixel 4
 
 # Hide borders
 hide_edge_borders none
@@ -74,20 +74,20 @@ bindsym Shift+XF86MonBrightnessDown exec "brightnessctl set 1%-"
 
 # Start Applications
 bindsym $mod+F1 exec lollypop
+bindsym $control+F1 exec Geary
 bindsym $mod+F2 exec firefox
 bindsym $mod+Shift+F2 exec torbrowser-launcher
 bindsym $mod+period exec --no-startup-id splatmoji -j copy ~/.local/share/splatmoji/data/gay.tsv ~/.local/share/splatmoji/data/splatmoji-emojidata/data/tsv/en.tsv
-bindsym $mod+d exec "rofi -combi-modi window,drun,scripts,run, -show-icons -show combi -modi combi"; exec $SFXpopup
-# rofi with icons 
-bindsym $mod+Tab exec "rofi -combi-modi window,drun,scripts,run, -show-icons -show combi -modi combi"; exec $SFXpopup
+bindsym $mod+d exec "rofi -combi-modi window,drun,scripts,ssh, -show-icons -show combi -modi combi";
+bindsym $mod+Tab exec "rofi -combi-modi window,drun,scripts,ssh, -show-icons -show combi -modi combi";
 bindsym $mod+Ctrl+n --release exec xfce4-notifyd-config
 # bindsym $mod+F3 exec ranger
-bindsym $mod+F3 exec nemo
+bindsym $mod+F3 exec thunar
 bindsym $mod+F4 exec zim
 bindsym $mod+shift+t exec --no-startup-id pkill picom
 bindsym $mod+Ctrl+t exec --no-startup-id picom -CGb -f --shadow-ignore-shaped
 bindsym Print exec --no-startup-id flameshot gui || shutter -s
-bindsym $mod+Print --release exec --no-startup-id i3-scrot -w
+bindsym $mod+Print --release exec --no-startup-id i3-scrot -s
 bindsym $mod+Shift+Print --release exec --no-startup-id i3-scrot -s
 bindsym $mod+Ctrl+x --release exec --no-startup-id xkill
 
@@ -298,7 +298,6 @@ exec --no-startup-id /usr/lib/xfce4/notifyd/xfce4-notifyd
 exec --no-startup-id nm-applet
 exec --no-startup-id xfce4-power-manager
 exec --no-startup-id xfce4-clipman
-exec --no-startup-id kitty newsboat
 # exec_always --no-startup-id picom -GCbf
 
 bindsym exec --no-startup-id xsetwacom --set "14" MapToOutput DisplayPort-0; xsetwacom --set "15" MapToOutput DisplayPort-0
@@ -334,7 +333,7 @@ bar {
         bindsym button4 nop
         bindsym button5 nop
         colors {
-            background #282A36
+            background #282a36
                 statusline #f8f8f2
                 separator  #44475a
 
@@ -358,15 +357,15 @@ client.unfocused        #bd93f9 #282A36 #BFBFBF #bd93f9   #bd93f9
 client.urgent           #ff5555 #FF5555 #F8F8F2 #FF5555   #FF5555
 client.placeholder      #282A36 #282A36 #F8F8F2 #282A36   #282A36
 
-client.background       #F8F8F2
+client.background       #282a36
 
 #############################
 ### settings for i3-gaps: ###
 #############################
 
 # Set inner/outer gaps
-gaps inner 3
-gaps outer 3
+gaps inner 6
+gaps outer 0
 
 # Additionally, you can issue commands with the following syntax. This is useful to bind keys to changing the gap size.
 # gaps inner|outer current|all set|plus|minus <px>
@@ -374,7 +373,7 @@ gaps outer 3
 # gaps outer all plus 5
 
 # Smart gaps (gaps used if only more than one container on the workspace)
-smart_gaps on
+# smart_gaps on
 
 # Smart borders (draw borders around container only if it is not the only container on this workspace) 
 # on|no_gaps (on=always activate and no_gaps=only activate if the gap size to the edge of the screen is 0)

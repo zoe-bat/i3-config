@@ -4,13 +4,13 @@ i3status --config ~/.i3/i3status.conf | while :
 do
     read line
 
-playerwhitelist=$(cat ~/.i3/playerwhitelist)
-playerctlstatus=$(playerctl -p $playerwhitelist status)
-title=$(playerctl -p $playerwhitelist metadata title)
-artist=$(playerctl -p $playerwhitelist metadata artist)
-players=$(playerctl -p $playerwhitelist -f '{{playerName}}' status;echo 🖭)
-hearts='.₊̣̇.♥♪'
-position=$(echo $(zsh ~/.i3/positionPercentage.sh)"%")
+    playerwhitelist=$(cat ~/.i3/playerwhitelist)
+    playerctlstatus=$(playerctl -p $playerwhitelist status)
+    title=$(playerctl -p $playerwhitelist metadata title)
+    artist=$(playerctl -p $playerwhitelist metadata artist)
+    players=$(playerctl -p $playerwhitelist -f '{{playerName}}' status;echo 🖭)
+    hearts='.₊̣̇.♥♪'
+    position=$(echo $(zsh ~/.i3/positionPercentage.sh)"%")
 
 #react to volume when awake
 volume=$(pamixer --get-volume)
@@ -41,7 +41,7 @@ playing=$(
 if [[ $playerctlstatus = *"Playing"* ]];
 
 then
-    echo $players "▶ "$hearts $franciswake $artist - $title $position
+    echo "$players "▶ "$hearts $franciswake $artist - $title $position"
 else
     echo $players "⏸ "$hearts $francissleep
 fi

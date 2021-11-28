@@ -4,7 +4,6 @@ positon=$(playerctl -p $playerwhitelist position);
 length=$(playerctl metadata mpris:length);
 length=$(($length / 1000000))
 
-
 length=$(echo $length)
 positon=$(echo $positon)
 
